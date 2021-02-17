@@ -24,32 +24,72 @@ function removeLoadingSpinner(){
 async function getQuote() {
     showLoadingSpinner();
     // We need to use a proxy url to make our API call in order to avoid CORS error
-    const proxyURL = 'https://thawing-thicket-41176.herokuapp.com/';
-    const apiURL = 'http://api.forismatic.com/api/1.0/?method=getQuote&lang=en&format=json';
-    try{
-        const response = await fetch(proxyURL + apiURL);
+    // const proxyURL = 'https://thawing-thicket-41176.herokuapp.com/';
+    // const apiURL = 'http://api.forismatic.com/api/1.0/?method=getQuote&lang=en&format=json';
+    const apiURL= 'https://type.fit/api/quotes'
+    
+    // ---- having two web site qoutes use any of one mean commented is one and uncommented is another.
+    
+    // First One
+
+    // try{
+        
+        // const response = await fetch(proxyURL + apiURL);
+        // const data = await response.json();
+
+        // if(data.quoteAuthor === ''){
+        //     authorText.innerText = 'Unknown';
+        // }else{
+        //     authorText.innerText = data.quoteAuthor;
+        // }
+        // // Quote Size is lengthy
+        // if(data.quoteText.length > 120 ){
+        //     quoteText.classList.add('long-quote');
+        // }else{
+        //     quoteText.classList.remove('long-quote');
+        // }
+        // quoteText.innerText = data.quoteText;
+
+        // // STOPE LOADER
+        // removeLoadingSpinner();
+        // count=1;
+    // }catch(error){
+    //     console.log(error);
+    //     count= count+1;
+    //     if(count<10){
+    //     getQuote();
+    //     }else{
+    //         alert("There is somthing wents Wrong Pleaase Refresh it again");
+    //     }
+    // }
+
+        //  --- Second one is this 
+
+        try{
+        const response = await fetch(apiURL);
         const data = await response.json();
-        if(data.quoteAuthor === ''){
+        let index = Math.floor(Math.random() * data.length+1); 
+        if(data[index].author === ''){
             authorText.innerText = 'Unknown';
         }else{
-            authorText.innerText = data.quoteAuthor;
+            authorText.innerText = data[index].author;
         }
         // Quote Size is lengthy
-        if(data.quoteText.length > 120 ){
+        if(data[index].text.length > 120 ){
             quoteText.classList.add('long-quote');
         }else{
             quoteText.classList.remove('long-quote');
         }
-        quoteText.innerText = data.quoteText;
+        quoteText.innerText = data[index].text;
 
         // STOPE LOADER
         removeLoadingSpinner();
         count=1;
 
     }catch(error){
+        console.log(error);
         count= count+1;
-        if(count<4){
-            console.log(count);
+        if(count<10){
         getQuote();
         }else{
             alert("There is somthing wents Wrong Pleaase Refresh it again");
